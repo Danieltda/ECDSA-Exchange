@@ -2,14 +2,30 @@ const express = require('express');
 const app = express();
 const cors = require('cors');
 const port = 3042;
+const secp = require("@noble/secp256k1")
 
 // localhost can have cross origin errors
 // depending on the browser you use!
 app.use(cors());
 app.use(express.json());
 
+let privateKeyOne = secp.utils.randomPrivateKey();
+
+privateKeyOne  = Buffer.from(privateKeyOne).toString("hex");
+
+console.log(privateKeyOne);
+
+let publicKeyOne = secp.getPublicKey(privateKeyOne);
+
+publicKeyOne = Buffer.from(publicKeyOne).toString("hex");
+
+publicKeyOne = "0x" + publicKeyOne.slice(publicKeyOne.length - 40);
+
+console.log(publicKeyOne)
+
+
 const balances = {
-  "1": 100,
+  [publicKeyOne]: 100,
   "2": 50,
   "3": 75,
 }
