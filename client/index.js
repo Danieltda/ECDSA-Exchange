@@ -2,6 +2,7 @@ import "./index.scss";
 
 const server = "http://localhost:3042";
 
+//Test
 document.getElementById("exchange-address").addEventListener('input', ({ target: {value} }) => {
   if(value === "") {
     document.getElementById("balance").innerHTML = 0;
