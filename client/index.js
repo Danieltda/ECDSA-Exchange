@@ -1,4 +1,6 @@
 import "./index.scss";
+const SHA256 = require('crypto-js/sha256');
+
 
 const server = "http://localhost:3042";
 
@@ -25,6 +27,10 @@ document.getElementById("transfer-amount").addEventListener('click', () => {
   const body = JSON.stringify({
     sender, amount, recipient, privatekey
   });
+
+  const msg = SHA256(body);
+
+  console.log(msg)
 
   const request = new Request(`${server}/send`, { method: 'POST', body });
 
