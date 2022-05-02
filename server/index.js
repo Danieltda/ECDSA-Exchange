@@ -3,6 +3,10 @@ const app = express();
 const cors = require('cors');
 const port = 3042;
 const secp = require("@noble/secp256k1")
+const EC = require('elliptic').ec;
+const SHA256 = require('crypto-js/sha256');
+
+const ec = new EC('secp256k1');
 
 // localhost can have cross origin errors
 // depending on the browser you use!
@@ -52,10 +56,12 @@ app.get('/balance/:address', (req, res) => {
 });
 
 app.post('/send', (req, res) => {
-  const {sender, recipient, amount} = req.body;
+  const {sender, recipient, amount, privatekey} = req.body;
+  console.log(req.body)
+  console.log(privatekey)
   balances[sender] -= amount;
   balances[recipient] = (balances[recipient] || 0) + +amount;
-  res.send({ balance: balances[sender] });
+  res.send({ balance: balances[sender], privatekey   });
 });
 
 app.listen(port, () => {
